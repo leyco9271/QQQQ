@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Año Nuevo Cinthia</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@700&family=Dancing+Script:wght@700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+        
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .scene {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 10;
+        }
+        
+        .scene.active {
+            display: flex;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 50%, #1a472a 100%);
+            padding: 60px 80px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(255, 215, 0, 0.3);
+            border: 3px solid #FFD700;
+            text-align: center;
+        }
+        
+        .greeting {
+            font-family: 'Great Vibes', cursive;
+            font-size: 72px;
+            color: #FFD700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.4);
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.4); }
+            50% { text-shadow: 0 0 30px rgba(255, 215, 0, 1), 0 0 60px rgba(255, 215, 0, 0.6); }
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #C41E3A, #8B0000);
+            color: #FFD700;
+            border: none;
+            padding: 15px 40px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 30px;
+            box-shadow: 0 5px 20px rgba(196, 30, 58, 0.5);
+            transition: all 0.3s;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(196, 30, 58, 0.7);
+        }
+        
+        .fuse {
+            position: absolute;
+            width: 6px;
+            height: 0;
+            background: linear-gradient(to top, #ff6600, #ffaa00);
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px #ff6600, 0 0 40px #ff6600;
+        }
+        
+        .spark {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #ffff00;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #ffff00, 0 0 40px #ffaa00;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .message {
+            font-family: 'Dancing Script', cursive;
+            font-size: 48px;
+            color: #FFD700;
+            text-align: center;
+            max-width: 800px;
+            padding: 40px;
+            background: rgba(26, 71, 42, 0.8);
+            border-radius: 20px;
+            border: 2px solid #FFD700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            line-height: 1.4;
+        }
+        
+        .image-container {
+            max-width: 90%;
+            max-height: 70vh;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(255, 215, 0, 0.4);
+            border: 3px solid #FFD700;
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .firework {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+        }
+        
+        .golden-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 64px;
+            color: #FFD700;
+            text-align: center;
+            font-weight: 700;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 1), 0 0 60px rgba(255, 215, 0, 0.8), 0 5px 10px rgba(0, 0, 0, 0.5);
+            animation: goldGlow 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes goldGlow {
+            0%, 100% { text-shadow: 0 0 30px rgba(255, 215, 0, 1), 0 0 60px rgba(255, 215, 0, 0.8), 0 5px 10px rgba(0, 0, 0, 0.5); }
+            50% { text-shadow: 0 0 50px rgba(255, 215, 0, 1), 0 0 100px rgba(255, 215, 0, 1), 0 5px 15px rgba(0, 0, 0, 0.5); }
+        }
+        
+        .final-message {
+            font-family: 'Dancing Script', cursive;
+            font-size: 42px;
+            color: #FFD700;
+            text-align: center;
+            max-width: 900px;
+            padding: 50px;
+            background: linear-gradient(135deg, rgba(26, 71, 42, 0.9), rgba(45, 90, 61, 0.9));
+            border-radius: 20px;
+            border: 3px solid #FFD700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            line-height: 1.6;
+            box-shadow: 0 20px 60px rgba(255, 215, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <audio id="audio" src="https://raw.githubusercontent.com/leyco9271/QQQQ/main/GABINO.mp3"></audio>
+    
+    <!-- Escenario 1 -->
+    <div class="scene active" id="scene1">
+        <div class="card">
+            <div class="greeting">HOLA CINTHIA...</div>
+            <button class="btn" onclick="goToScene(2)">Continuar</button>
+        </div>
+    </div>
+    
+    <!-- Escenario 2 -->
+    <div class="scene" id="scene2">
+        <div class="message">QUE HAYAS PASADO UNA MARAVILLOSA NAVIDAD, CINTHIA</div>
+        <button class="btn" onclick="goToScene(3)">Continuar</button>
+    </div>
+    
+    <!-- Escenario 3 -->
+    <div class="scene" id="scene3">
+        <div class="image-container">
+            <img src="https://raw.githubusercontent.com/leyco9271/QQQQ/main/TARJETANAVIDAD.jpeg" alt="Tarjeta Navidad">
+        </div>
+        <button class="btn" onclick="goToScene(4)">Continuar</button>
+    </div>
+    
+    <!-- Escenario 4 -->
+    <div class="scene" id="scene4">
+        <div class="golden-text">FELIZ AÑO NUEVO<br>CINTHIA</div>
+        <button class="btn" onclick="goToScene(5)">Continuar</button>
+    </div>
+    
+    <!-- Escenario 5 -->
+    <div class="scene" id="scene5">
+        <div class="image-container">
+            <img src="https://raw.githubusercontent.com/leyco9271/QQQQ/main/TARJETANUEVO.jpeg" alt="Tarjeta Año Nuevo">
+        </div>
+        <button class="btn" onclick="goToScene(6)">Continuar</button>
+    </div>
+    
+    <!-- Escenario 6 -->
+    <div class="scene" id="scene6">
+        <div class="final-message">
+            CUIDA TAMBIÉN A TUS PERRITOS ESTAS FIESTAS<br>
+            SE ASUSTAN MUCHO CON ESTOS RUIDOS FUERTES 🐶❤️
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const audio = document.getElementById('audio');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        let stars = [];
+        let currentScene = 1;
+        let fuseAnimation = null;
+        let fireworksInterval = null;
+        
+        class Star {
+            constructor() {
+                this.reset();
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+            }
+            
+            reset() {
+                this.x = Math.random() < 0.5 ? 0 : canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 4;
+                this.vy = (Math.random() - 0.5) * 2;
+                this.size = Math.random() * 2 + 1;
+                this.trail = [];
+            }
+            
+            update() {
+                this.trail.push({x: this.x, y: this.y});
+                if (this.trail.length > 10) this.trail.shift();
+                
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.explode();
+                    this.reset();
+                }
+            }
+            
+            explode() {
+                const colors = ['#FFD700', '#FF0000', '#90EE90', '#87CEEB', '#DDA0DD', '#FFFF00'];
+                for (let i = 0; i < 15; i++) {
+                    const angle = (Math.PI * 2 * i) / 15;
+                    const particle = {
+                        x: this.x,
+                        y: this.y,
+                        vx: Math.cos(angle) * (Math.random() * 3 + 2),
+                        vy: Math.sin(angle) * (Math.random() * 3 + 2),
+                        color: colors[Math.floor(Math.random() * colors.length)],
+                        life: 1
+                    };
+                    particles.push(particle);
+                }
+            }
+            
+            draw() {
+                ctx.save();
+                this.trail.forEach((point, i) => {
+                    ctx.globalAlpha = (i / this.trail.length) * 0.5;
+                    ctx.fillStyle = 'white';
+                    ctx.beginPath();
+                    ctx.arc(point.x, point.y, this.size * 0.5, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                
+                ctx.globalAlpha = 1;
+                ctx.fillStyle = 'white';
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = 'white';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+        
+        let particles = [];
+        
+        for (let i = 0; i < 30; i++) {
+            stars.push(new Star());
+        }
+        
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            
+            particles = particles.filter(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.1;
+                p.life -= 0.02;
+                
+                if (p.life > 0) {
+                    ctx.globalAlpha = p.life;
+                    ctx.fillStyle = p.color;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                    return true;
+                }
+                return false;
+            });
+            
+            ctx.globalAlpha = 1;
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+        
+        function goToScene(sceneNumber) {
+            document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+            document.getElementById('scene' + sceneNumber).classList.add('active');
+            currentScene = sceneNumber;
+            
+            if (sceneNumber === 2) {
+                audio.play();
+                animateFuse();
+            }
+            
+            if (sceneNumber === 4) {
+                startFireworks();
+            } else {
+                stopFireworks();
+            }
+        }
+        
+        function animateFuse() {
+            const scene = document.getElementById('scene2');
+            const fuse = document.createElement('div');
+            fuse.className = 'fuse';
+            scene.appendChild(fuse);
+            
+            const spark = document.createElement('div');
+            spark.className = 'spark';
+            scene.appendChild(spark);
+            
+            let height = 0;
+            const maxHeight = window.innerHeight;
+            
+            const interval = setInterval(() => {
+                height += 5;
+                fuse.style.height = height + 'px';
+                spark.style.bottom = height + 'px';
+                
+                if (height >= maxHeight) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        scene.removeChild(fuse);
+                        scene.removeChild(spark);
+                    }, 500);
+                }
+            }, 10);
+        }
+        
+        function startFireworks() {
+            fireworksInterval = setInterval(() => {
+                launchFirework();
+            }, 300);
+        }
+        
+        function stopFireworks() {
+            if (fireworksInterval) {
+                clearInterval(fireworksInterval);
+                fireworksInterval = null;
+            }
+        }
+        
+        function launchFirework() {
+            const startX = Math.random() * canvas.width;
+            const startY = canvas.height;
+            const endX = startX + (Math.random() - 0.5) * 100;
+            const endY = Math.random() * canvas.height * 0.4;
+            
+            const colors = ['#FFD700', '#FF0000', '#90EE90', '#87CEEB', '#DDA0DD', '#FFFF00'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            
+            let progress = 0;
+            const launchInterval = setInterval(() => {
+                progress += 0.05;
+                const currentX = startX + (endX - startX) * progress;
+                const currentY = startY + (endY - startY) * progress;
+                
+                ctx.fillStyle = color;
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = color;
+                ctx.beginPath();
+                ctx.arc(currentX, currentY, 3, 0, Math.PI * 2);
+                ctx.fill();
+                
+                if (progress >= 1) {
+                    clearInterval(launchInterval);
+                    explodeFirework(endX, endY, color);
+                }
+            }, 20);
+        }
+        
+        function explodeFirework(x, y, baseColor) {
+            for (let i = 0; i < 50; i++) {
+                const angle = (Math.PI * 2 * i) / 50;
+                const speed = Math.random() * 4 + 2;
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    color: baseColor,
+                    life: 1
+                });
+            }
+        }
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
